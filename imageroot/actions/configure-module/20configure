@@ -17,6 +17,30 @@ request = json.load(sys.stdin)
 # custom route in our web router. Here the path is hardcoded as
 # 'portainer'.
 
+# Try to parse the stdin as JSON.
+# If parsing fails, output everything to stderr
+data = json.load(sys.stdin)
+
+# Setup default values
+host = data.get("host")
+h2hs = data.get("http2https", True)
+le = data.get("lets_encrypt", False)
+
+# Talk with agent using file descriptor.
+# Setup configuration from user input.
+agent.set_env("TRAEFIK_HOST", host)
+agent.set_env("TRAEFIK_HTTP2HTTPS", h2hs)
+agent.set_env("TRAEFIK_LETS_ENCRYPT", le)
+
+# Make sure everything is saved inside the environment file
+# just before starting systemd unit
+agent.dump_env()
+
+# Find default traefik instance for current node
+default_traefik_id = agent.resolve_agent_id('traefik@node')
+if default_traefik_id is None:
+    sys.exit(2)
+
 # Configure Traefik to route "/portainer" path requests to the portainer service
 response = agent.tasks.run(
     agent_id=agent.resolve_agent_id('traefik@node'),
@@ -24,9 +48,9 @@ response = agent.tasks.run(
     data={
         'instance': os.environ['MODULE_ID'],
         'url':  'http://127.0.0.1:' + os.environ["TCP_PORT"],
-        'http2https': False,
-        'lets_encrypt': False,
-        'path': '/portainer',
+        'host': host,
+        'http2https': h2hs,
+        'lets_encrypt': le
     },
 )
 
