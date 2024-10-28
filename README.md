@@ -4,10 +4,6 @@ Portainer is a web based container management.
 
 ## Install
 
-Install via Software center:
-
-Add a Software repository pointing to https://repo.mrmarkuz.com/ns8/updates/, check out the repo webpage how to do it.
-
 Install via CLI:
 
     add-module ghcr.io/mrmarkuz/portainer:latest 1
