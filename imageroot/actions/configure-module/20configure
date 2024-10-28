@@ -11,8 +11,6 @@ import agent
 import agent.tasks
 import os
 
-request = json.load(sys.stdin)
-
 # TODO: do something with the request payload. For example configure a
 # custom route in our web router. Here the path is hardcoded as
 # 'portainer'.

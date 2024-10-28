@@ -26,7 +26,7 @@ ExecStart=/usr/bin/podman run \
     --publish=127.0.0.1:${TCP_PORT}:9443 \
     --env-file=smarthost.env \
     --security-opt label=disable \
-    --volume /run/user/%u/podman/podman.sock:/var/run/docker.sock:Z \
+    --volume /run/user/%U/podman/podman.sock:/var/run/docker.sock:Z \
     --volume portainer_data:/data:Z \
     ${PORTAINER_CE_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/portainer.ctr-id -t 10
