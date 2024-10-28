@@ -6,9 +6,7 @@ Portainer is a web based container management.
 
 Install via Software center:
 
-    Add a Software repository pointing to https://repo.mrmarkuz.com/ns8/updates/, check out the repo webpage how to do it.
-    Install Onlyoffice via Software Center
-
+Add a Software repository pointing to https://repo.mrmarkuz.com/ns8/updates/, check out the repo webpage how to do it.
 
 Install via CLI:
 
