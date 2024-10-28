@@ -9,4 +9,5 @@
 
 touch smarthost.env
 
+systemctl --user enable --now podman.socket
 systemctl --user enable --now portainer.service

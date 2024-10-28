@@ -23,9 +23,12 @@ ExecStart=/usr/bin/podman run \
     --cidfile=%t/portainer.ctr-id \
     --cgroups=no-conmon \
     --replace --name=%N \
-    --publish=127.0.0.1:${TCP_PORT}:8080 \
+    --publish=127.0.0.1:${TCP_PORT}:9443 \
     --env-file=smarthost.env \
-    ${ECHO_SERVER_IMAGE}
+    --security-opt label=disable \
+    --volume /run/user/$(id -u)/podman/podman.sock:/var/run/docker.sock:Z \
+    --volume portainer_data:/data:Z \
+    ${PORTAINER_CE_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/portainer.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/portainer.ctr-id
 PIDFile=%t/portainer.pid
