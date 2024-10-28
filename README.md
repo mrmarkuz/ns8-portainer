@@ -1,9 +1,9 @@
-# ns8-kickstart
+# ns8-portainer
 
 This is a template module for [NethServer 8](https://github.com/NethServer/ns8-core).
 To start a new module from it:
 
-1. Click on [Use this template](https://github.com/NethServer/ns8-kickstart/generate).
+1. Click on [Use this template](https://github.com/NethServer/ns8-portainer/generate).
    Name your repo with `ns8-` prefix (e.g. `ns8-mymodule`). 
    Do not end your module name with a number, like ~~`ns8-baaad2`~~!
 
@@ -13,9 +13,9 @@ To start a new module from it:
 1. Rename some references inside the repo:
    ```
    modulename=$(basename $(pwd) | sed 's/^ns8-//')
-   git mv imageroot/systemd/user/kickstart.service imageroot/systemd/user/${modulename}.service
-   git mv tests/kickstart.robot tests/${modulename}.robot
-   sed -i "s/kickstart/${modulename}/g" $(find .github/ * -type f)
+   git mv imageroot/systemd/user/portainer.service imageroot/systemd/user/${modulename}.service
+   git mv tests/portainer.robot tests/${modulename}.robot
+   sed -i "s/portainer/${modulename}/g" $(find .github/ * -type f)
    git commit -a -m "Repository initialization"
    ```
 
@@ -32,16 +32,16 @@ To start a new module from it:
 
 Instantiate the module with:
 
-    add-module ghcr.io/nethserver/kickstart:latest 1
+    add-module ghcr.io/nethserver/portainer:latest 1
 
 The output of the command will return the instance name.
 Output example:
 
-    {"module_id": "kickstart1", "image_name": "kickstart", "image_url": "ghcr.io/nethserver/kickstart:latest"}
+    {"module_id": "portainer1", "image_name": "portainer", "image_url": "ghcr.io/nethserver/portainer:latest"}
 
 ## Configure
 
-Let's assume that the kickstart instance is named `kickstart1`.
+Let's assume that the portainer instance is named `portainer1`.
 
 Launch `configure-module`, by setting the following parameters:
 - `<MODULE_PARAM1_NAME>`: <MODULE_PARAM1_DESCRIPTION>
@@ -50,16 +50,16 @@ Launch `configure-module`, by setting the following parameters:
 
 Example:
 
-    api-cli run module/kickstart1/configure-module --data '{}'
+    api-cli run module/portainer1/configure-module --data '{}'
 
 The above command will:
-- start and configure the kickstart instance
+- start and configure the portainer instance
 - (describe configuration process)
 - ...
 
-Send a test HTTP request to the kickstart backend service:
+Send a test HTTP request to the portainer backend service:
 
-    curl http://127.0.0.1/kickstart/
+    curl http://127.0.0.1/portainer/
 
 ## Smarthost setting discovery
 
@@ -68,14 +68,14 @@ Some configuration settings, like the smarthost setup, are not part of the
 Redis keys.  To ensure the module is always up-to-date with the
 centralized [smarthost
 setup](https://nethserver.github.io/ns8-core/core/smarthost/) every time
-kickstart starts, the command `bin/discover-smarthost` runs and refreshes
+portainer starts, the command `bin/discover-smarthost` runs and refreshes
 the `state/smarthost.env` file with fresh values from Redis.
 
-Furthermore if smarthost setup is changed when kickstart is already
+Furthermore if smarthost setup is changed when portainer is already
 running, the event handler `events/smarthost-changed/10reload_services`
 restarts the main module service.
 
-See also the `systemd/user/kickstart.service` file.
+See also the `systemd/user/portainer.service` file.
 
 This setting discovery is just an example to understand how the module is
 expected to work: it can be rewritten or discarded completely.
@@ -84,14 +84,14 @@ expected to work: it can be rewritten or discarded completely.
 
 To uninstall the instance:
 
-    remove-module --no-preserve kickstart1
+    remove-module --no-preserve portainer1
 
 ## Testing
 
 Test the module using the `test-module.sh` script:
 
 
-    ./test-module.sh <NODE_ADDR> ghcr.io/nethserver/kickstart:latest
+    ./test-module.sh <NODE_ADDR> ghcr.io/nethserver/portainer:latest
 
 The tests are made using [Robot Framework](https://robotframework.org/)
 
